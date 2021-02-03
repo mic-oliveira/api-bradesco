@@ -16,7 +16,7 @@ class CertService
         "emailAddress" => "wez@example.com"
     ];
 
-    private array $key_params = ['digest_alg' => 'sha256',
+    private array $key_params = ['digest_alg' => null,
         'private_key_bits' => 2048, 'private_key_type' => OPENSSL_KEYTYPE_RSA];
 
     public function createPrivateKey(string $key_path): bool
@@ -36,8 +36,7 @@ class CertService
     {
         try{
             CertService::validateKeyPath($private_Key_path);
-            $private_Key = file_get_contents($private_Key_path);
-            $key = openssl_get_privatekey($private_Key);
+            $key = openssl_get_privatekey(file_get_contents($private_Key_path));
             $public_key = openssl_pkey_get_details($key)['key'];
             $cert_created = file_exists($public_key_path) || file_put_contents($public_key_path, $public_key);
             chmod($public_key_path, 0766);
@@ -47,20 +46,32 @@ class CertService
         }
     }
 
-    public function createCertificate(string $private_key_path, string $x509_path, $password = null,
-                                      array $options = ['days'=>365,'ca_certificate'=> null]): bool
+    public function createCertificate(string $private_key_path, string $cert_path,
+                                      int $days=1125,$ca_certificate=null, array $options=['digest_alg'=>'sha256']): bool
     {
-        try{
+        try {
             CertService::validateKeyPath($private_key_path);
-            $key = openssl_get_privatekey($private_key_path,$password);
-            $csr = openssl_csr_new($this->distinguished_names,$key,$this->key_params);
-            $cert = openssl_csr_sign($csr,$options['ca_certificate'],$key,$options['days']);
-            $x509_cert = openssl_x509_export_to_file($cert,$x509_path);
-            chmod($x509_path, 0766);
-            return $x509_cert;
+            $key = openssl_get_privatekey(file_get_contents($private_key_path));
+            $csr = openssl_csr_new($this->distinguished_names, $key,$this->key_params);
+            if ($csr)
+            {
+                openssl_csr_export_to_file($csr, $cert_path.'.csr');
+                $certificate = openssl_csr_sign($csr,$ca_certificate,$key,$days,$options);
+                $cert_created = openssl_x509_export_to_file($certificate,$cert_path);
+                chmod($cert_path, 0766);
+                chmod($cert_path.'.csr', 0766);
+            }
+            return $cert_created ?? false;
         } catch (Exception $exception) {
             throw $exception;
         }
+    }
+
+    public function verifyX509(string $cert_path,string $public_key_path): int
+    {
+        $key = openssl_get_publickey(file_get_contents($public_key_path));
+        $cert = openssl_x509_read(file_get_contents($cert_path));
+        return openssl_x509_verify($cert, $key);
     }
 
     static public function keyExists($private_key_path){
