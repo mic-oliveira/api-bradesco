@@ -2,15 +2,15 @@
 
 namespace Bradesco\Models;
 
-class Address
+class Address extends Model
 {
-    private $public_place;
-    private $number;
-    private $complement;
-    private $cep;
-    private $neighborhood;
-    private $city;
-    private $fu;
+    private string $public_place;
+    private string $number;
+    private string $complement;
+    private int $cep;
+    private string $neighborhood;
+    private string $city;
+    private string $fu;
 
     /**
      * @return mixed

@@ -1,0 +1,10 @@
+version: '3.1'
+
+services:
+  php:
+    image: mileschou/xdebug:7.4
+    volumes:
+      - ./:/app
+    ports:
+    - 80:80
+    working_dir: "/app"

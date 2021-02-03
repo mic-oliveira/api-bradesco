@@ -4,16 +4,16 @@
 namespace Bradesco\Models;
 
 
-class Discount
+class Discount extends Model
 {
-    private $amount;
-    private $limit_date;
-    private $percentage;
+    private float $amount;
+    private string $limit_date;
+    private int $percentage;
 
     /**
      * @return mixed
      */
-    public function getAmount()
+    public function getAmount(): float
     {
         return $this->amount;
     }
@@ -29,7 +29,7 @@ class Discount
     /**
      * @return mixed
      */
-    public function getLimitDate()
+    public function getLimitDate(): string
     {
         return $this->limit_date;
     }
@@ -45,7 +45,7 @@ class Discount
     /**
      * @return mixed
      */
-    public function getPercentage()
+    public function getPercentage(): int
     {
         return $this->percentage;
     }

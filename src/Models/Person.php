@@ -2,13 +2,13 @@
 
 namespace Bradesco\Models;
 
-class Person
+class Person extends Model
 {
     private $name;
     private $cpfCnpj;
     private $email;
-    private $address;
-    private $document;
+    private Address $address;
+    private Document $document;
 
     /**
      * @return mixed

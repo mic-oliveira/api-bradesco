@@ -4,7 +4,7 @@
 namespace Bradesco\Models;
 
 
-class Interest
+class Interest extends Model
 {
     private $value;
     private $percentage;

@@ -4,7 +4,7 @@
 namespace Bradesco\Models;
 
 
-class Bonus
+class Bonus extends Model
 {
     private $term;
     private $percentage;

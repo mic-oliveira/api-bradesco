@@ -4,20 +4,22 @@
 namespace Bradesco\Models;
 
 
-class Billet
+class Billet extends Model
 {
-    private $emission;
-    private $date_issue;
-    private $negotiation;
-    private $title;
-    private $IOF;
-    private $due_date;
-    private $interest;
-    private $fine;
+    private string $emission;
+    private string $date_issue;
+    private string $negotiation;
+    private string $title;
+    private string $IOF;
+    private string $due_date;
+    private Interest $interest;
+    private Fine $fine;
     private $client_number;
-    private $client_document;
+    private Document $client_document;
     private $partner_control;
-    private $discounts;
+    private array $discounts;
+    private Person $payer;
+    private Person $drawer;
 
     /**
      * @return mixed
@@ -212,6 +214,38 @@ class Billet
         foreach ($discounts as $key=>$discount) {
             $this->discounts = array_merge($this->discounts,$discount);
         }
+    }
+
+    /**
+     * @return Person
+     */
+    public function getPayer(): Person
+    {
+        return $this->payer;
+    }
+
+    /**
+     * @param Person $payer
+     */
+    public function setPayer(Person $payer): void
+    {
+        $this->payer = $payer;
+    }
+
+    /**
+     * @return Person
+     */
+    public function getDrawer(): Person
+    {
+        return $this->drawer;
+    }
+
+    /**
+     * @param Person $drawer
+     */
+    public function setDrawer(Person $drawer): void
+    {
+        $this->drawer = $drawer;
     }
 
 }

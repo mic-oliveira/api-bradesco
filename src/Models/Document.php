@@ -4,8 +4,8 @@
 namespace Bradesco\Models;
 
 
-class Document
+class Document extends Model
 {
-    private $document_type;
-    private $document_number;
+    private int $document_type;
+    private string $document_number;
 }
