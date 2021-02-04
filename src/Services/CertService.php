@@ -19,11 +19,11 @@ class CertService
     private array $key_params = ['digest_alg' => null,
         'private_key_bits' => 2048, 'private_key_type' => OPENSSL_KEYTYPE_RSA];
 
-    public function createPrivateKey(string $key_path): bool
+    public function createPrivateKey(string $key_path,string $passphrase = null, array $options = null): bool
     {
         try {
             $private_key = openssl_pkey_new($this->key_params);
-            openssl_pkey_export($private_key,$key);
+            openssl_pkey_export($private_key,$key,$passphrase,$options);
             $key_created = file_exists($key_path) || file_put_contents($key_path,$key);
             chmod($key_path, 0766);
             return $key_created;
@@ -32,11 +32,11 @@ class CertService
         }
     }
 
-    public function createPublicKey(string $private_Key_path,string $public_key_path): bool
+    public function createPublicKey(string $private_Key_path,string $public_key_path,string $passphrase = null): bool
     {
         try{
             CertService::validateKeyPath($private_Key_path);
-            $key = openssl_get_privatekey(file_get_contents($private_Key_path));
+            $key = openssl_get_privatekey(file_get_contents($private_Key_path), $passphrase);
             $public_key = openssl_pkey_get_details($key)['key'];
             $cert_created = file_exists($public_key_path) || file_put_contents($public_key_path, $public_key);
             chmod($public_key_path, 0766);
@@ -47,11 +47,12 @@ class CertService
     }
 
     public function createCertificate(string $private_key_path, string $cert_path,
+                                      string $passphrase=null,
                                       int $days=1125,$ca_certificate=null, array $options=['digest_alg'=>'sha256']): bool
     {
         try {
             CertService::validateKeyPath($private_key_path);
-            $key = openssl_get_privatekey(file_get_contents($private_key_path));
+            $key = openssl_get_privatekey(file_get_contents($private_key_path), $passphrase);
             $csr = openssl_csr_new($this->distinguished_names, $key,$this->key_params);
             if ($csr)
             {
