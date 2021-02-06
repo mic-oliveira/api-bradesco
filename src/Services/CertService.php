@@ -32,11 +32,10 @@ class CertService
         }
     }
 
-    public function createPublicKey(string $private_Key_path,string $public_key_path,string $passphrase = null): bool
+    public function createPublicKey(string $private_key_path,string $public_key_path,string $passphrase = null): bool
     {
         try{
-            CertService::validateKeyPath($private_Key_path);
-            $key = openssl_get_privatekey(file_get_contents($private_Key_path), $passphrase);
+            $key = $key = $this->getPrivateKey($private_key_path, $passphrase);
             $public_key = openssl_pkey_get_details($key)['key'];
             $cert_created = file_exists($public_key_path) || file_put_contents($public_key_path, $public_key);
             chmod($public_key_path, 0766);
@@ -51,8 +50,7 @@ class CertService
                                       int $days=1125,$ca_certificate=null, array $options=['digest_alg'=>'sha256']): bool
     {
         try {
-            CertService::validateKeyPath($private_key_path);
-            $key = openssl_get_privatekey(file_get_contents($private_key_path), $passphrase);
+            $key = $this->getPrivateKey($private_key_path, $passphrase);
             $csr = openssl_csr_new($this->distinguished_names, $key,$this->key_params);
             if ($csr)
             {
@@ -66,6 +64,12 @@ class CertService
         } catch (Exception $exception) {
             throw $exception;
         }
+    }
+
+    public function getPrivateKey(string $private_key_path, string $passphrase = null)
+    {
+        CertService::validateKeyPath($private_key_path);
+        return openssl_get_privatekey(file_get_contents($private_key_path), $passphrase);
     }
 
     public function verifyX509(string $cert_path,string $public_key_path): int
@@ -107,5 +111,16 @@ class CertService
     public function getKeyParams(): array
     {
         return $this->key_params;
+    }
+
+    static function sign(string $data, string $private_key='path',string $alg='SHA256', string $passphrase=null)
+    {
+        try {
+            $key = (new CertService)->getPrivateKey($private_key, $passphrase);
+            openssl_sign($data,$signed_data, $key, $alg);
+            return $signed_data;
+        } catch (Exception $e) {
+            throw $e;
+        }
     }
 }

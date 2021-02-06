@@ -6,7 +6,6 @@ namespace Tests\Unit\Services;
 
 use Bradesco\Services\JWTService;
 use Carbon\Carbon;
-use Firebase\JWT\JWT;
 use PHPUnit\Framework\TestCase;
 
 class JWTServiceTest extends TestCase
@@ -27,7 +26,7 @@ class JWTServiceTest extends TestCase
             'exp' => (string)strtotime(Carbon::now()->addDay()->toDateTimeString()),
             'jti' => (string)Carbon::now()->unix(),
         ]);
-        $this->assertIsString($t=$this->service->createJWTToken(__DIR__.'/nettel.teste.com.key.pem'));
+        $this->assertIsString($t=$this->service->createJWTToken(__DIR__.'/private.key.pem'));
     }
 
 }
