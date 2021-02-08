@@ -10,4 +10,9 @@ class BilletEmissionServiceTest extends TestCase
     {
         parent::setUp();
     }
+
+    public function testExample()
+    {
+        $this->markTestIncomplete();
+    }
 }

@@ -17,14 +17,15 @@ class Signature extends Model
     private string $algorithm;
 
     protected array $mandatory = [
-        'X-Brad-Once',
-        'X-Brad-Timestamp',
-        'X-Brad-Algorithm',
         'verb',
         'uri',
+        'account',
+        'agency',
         'body',
-        'accessToken',
-        'params'
+        'access_token',
+        'nonce',
+        'timestamp',
+        'algorithm'
     ];
 
     /**

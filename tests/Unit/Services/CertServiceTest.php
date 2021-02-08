@@ -64,7 +64,14 @@ class CertServiceTest extends TestCase
         $this->assertTrue($this->service->createPublicKey($this->private_key_path,$this->public_key_path,'1235'));
     }
 
-    public function testCreateX509File()
+    public function testCreateFailed()
+    {
+        $this->service->createPrivateKey($this->private_key_path,'1235');
+        $this->expectException(Exception::class);
+        $this->service->createCertificate('not_exist_path',$this->certificate_path,'1235');
+    }
+
+    public function testCreateCertificate()
     {
         $this->service->createPrivateKey($this->private_key_path,'1235');
         $this->assertTrue($this->service->createCertificate($this->private_key_path,$this->certificate_path,'1235'));

@@ -17,6 +17,7 @@ class ArrayableTest extends TestCase
     public function testToArray()
     {
         $this->assertIsArray($this->trait->toArray());
+        $this->assertArrayHasKey('id',$this->trait->toArray());
     }
 
 }
