@@ -26,10 +26,9 @@ trait MandatoryAttribute
         $this->mandatory = $mandatory;
     }
 
-
     public function validateAttributes(): bool
     {
-        if(array_diff_key($this->mandatory, $this->toArray())) {
+        if(array_diff_key($this->mandatory, array_merge($this->toArray(), ['mandatory'=> $this->mandatory]))) {
             throw new ValidationException('Mandatory attribute invalid');
         }
         return true;

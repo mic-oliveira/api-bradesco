@@ -34,7 +34,7 @@ class MandatoryAttributeTest extends TestCase
 
     public function testInvalidAttribute()
     {
-        $this->trait->setMandatory(['id']);
+        $this->trait->setMandatory(['amount']);
         $this->expectException(ValidationException::class);
         $this->trait->validateAttributes();
     }

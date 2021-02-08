@@ -8,5 +8,5 @@ use Bradesco\Models\Model;
 
 class TestClass extends Model
 {
-
+    private $id=1;
 }
