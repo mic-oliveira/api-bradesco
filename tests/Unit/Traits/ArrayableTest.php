@@ -11,7 +11,7 @@ class ArrayableTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->trait = $this->getObjectForTrait(Arrayable::class);
+        $this->trait = new TestClass();
     }
 
     public function testToArray()

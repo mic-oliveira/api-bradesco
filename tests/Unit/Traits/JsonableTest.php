@@ -12,7 +12,7 @@ class JsonableTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->jsonable = $this->getObjectForTrait(Jsonable::class);
+        $this->jsonable = new TestClass();
     }
 
     public function testToJson()

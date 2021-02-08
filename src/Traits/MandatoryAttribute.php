@@ -4,17 +4,35 @@
 namespace Bradesco\Traits;
 
 
-use Bradesco\Exceptions\SignatureException;
+use Bradesco\Exceptions\ValidationException;
 
 trait MandatoryAttribute
 {
-    protected static array $mandatory=[];
+    protected array $mandatory=[];
 
-    public function validateAttributes()
+    /**
+     * @return array
+     */
+    public function getMandatory(): array
     {
-        if(!in_array(self::$mandatory, $this->toArray())) {
-            throw new SignatureException('Mandatory signature invalid');
+        return $this->mandatory;
+    }
+
+    /**
+     * @param array $mandatory
+     */
+    public function setMandatory(array $mandatory): void
+    {
+        $this->mandatory = $mandatory;
+    }
+
+
+    public function validateAttributes(): bool
+    {
+        if(array_diff_key($this->mandatory, $this->toArray())) {
+            throw new ValidationException('Mandatory attribute invalid');
         }
+        return true;
     }
 
 }

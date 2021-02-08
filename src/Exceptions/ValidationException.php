@@ -6,7 +6,7 @@ namespace Bradesco\Exceptions;
 
 use Throwable;
 
-class SignatureException extends \Exception
+class ValidationException extends \Exception
 {
     public function __construct($message = "", $code = 0, Throwable $previous = null)
     {

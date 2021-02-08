@@ -4,9 +4,6 @@
 namespace Bradesco\Models;
 
 
-use Bradesco\Exceptions\SignatureException;
-use Carbon\Carbon;
-
 class Signature extends Model
 {
     private string $verb;
@@ -19,7 +16,7 @@ class Signature extends Model
     private string $timestamp;
     private string $algorithm;
 
-    protected static array $mandatory = [
+    protected array $mandatory = [
         'X-Brad-Once',
         'X-Brad-Timestamp',
         'X-Brad-Algorithm',

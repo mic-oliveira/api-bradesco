@@ -26,7 +26,7 @@ class JWTServiceTest extends TestCase
             'exp' => (string)strtotime(Carbon::now()->addDay()->toDateTimeString()),
             'jti' => (string)Carbon::now()->unix(),
         ]);
-        $this->assertIsString($t=$this->service->createJWTToken(__DIR__.'/private.key.pem'));
+        $this->assertIsString($t=$this->service->createJWTToken(__DIR__.'/private.key.pem','1235'));
     }
 
 }
