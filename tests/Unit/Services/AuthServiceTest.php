@@ -6,6 +6,7 @@ namespace Tests\Unit\Services;
 
 use BlastCloud\Guzzler\UsesGuzzler;
 use Bradesco\Services\AuthService;
+use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\TestCase;
 
@@ -23,7 +24,12 @@ class AuthServiceTest extends TestCase
         $this->service->setClient($client);
     }
 
-    public function testCreateToken()
+    public function getClient()
+    {
+        $this->assertInstanceOf(Client::class, $this->service->getClient());
+    }
+
+    public function testAccessToken()
     {
         $this->guzzler->expects($this->once())->post('/auth/server/v1.1/token')
             ->willRespond(
@@ -36,7 +42,6 @@ class AuthServiceTest extends TestCase
                 )
             );
         $this->assertIsObject($this->service->accessToken(__DIR__.'/private.key.pem','1235'));
-
     }
 
 }

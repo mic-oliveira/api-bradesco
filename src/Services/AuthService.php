@@ -58,25 +58,44 @@ class AuthService
 
     public function setCache(string $access_token_value,$expires_in): bool
     {
+
         $access_token = $this->cache->getItem('token.access_token');
         $access_token->set($access_token_value);
-        $this->setExpireIn($expires_in);
-        $this->cache->get('token.access_token', function (ItemInterface $item) use ($expires_in) {
-            $item->expiresAt(Carbon::createFromTimestamp($expires_in));
-        });
+        $this->setExpiresAt($expires_in);
+        $this->cache->save($access_token);
         return $access_token ? true : false;
     }
 
-    public function setExpireIn(int $expires_value): bool
+    public function setExpiresAt($expires_at)
     {
-        $expires_at = $this->cache->getItem('token.expire_at');
-        $expires_at->set($expires_value);
-        return $expires_at ? true : false;
+        $this->cache->get('token.access_token', function (ItemInterface $item) use ($expires_at) {
+            $item->expiresAfter($expires_at);
+        });
     }
 
-    private function makeHeaders(Signature $signature) {
-
+    public function authorize(Signature $signature, string $private_key, $password = null): string
+    {
+        $headers = $this->makeHeaders($signature);
+        $request = $this->client->request('POST','/v1.1/jwt-service', [
+            'headers' => $headers,
+            'forms_params' => [
+                'teste' => 'valor'
+            ]
+        ]);
+        return $request->getBody()->getContents();
     }
 
+    private function makeHeaders(Signature $signature, string $private_key, $password = null): array
+    {
+        $xBradSignature = CertService::sign(SignatureService::requestString($signature),$private_key, $password);
+        return [
+            'Authorization' => 'Bearer '.$this->cache->getItem('token.acess_token')->get(),
+            'X-Brad-Nonce'  =>  $signature->getNonce(),
+            'X-Brad-Timestamp' => $signature->getTimestamp(),
+            'X-Brad-Signature' => base64_encode($xBradSignature),
+            'X-Brad-Algorithm' => $signature->getAlgorithm(),
+            'Content-type' => 'application/json'
+        ];
+    }
 
 }

@@ -113,7 +113,7 @@ class CertService
         return $this->key_params;
     }
 
-    static function sign(string $data, string $private_key='path',string $alg='SHA256', string $passphrase=null)
+    static function sign(string $data, string $private_key='path', string $passphrase=null, string $alg='SHA256')
     {
         try {
             $key = (new CertService)->getPrivateKey($private_key, $passphrase);

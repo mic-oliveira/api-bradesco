@@ -171,4 +171,8 @@ class Signature extends Model
     {
         $this->algorithm = $algorithm;
     }
+
+    public function getParams(){
+
+    }
 }
