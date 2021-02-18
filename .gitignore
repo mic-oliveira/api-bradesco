@@ -6,3 +6,6 @@
 /tests/Unit/Services/*.pem
 /tests/Unit/Services/*.csr
 /tests/Unit/Services/token.txt
+/*.pem
+/*.csr
+/*.cert

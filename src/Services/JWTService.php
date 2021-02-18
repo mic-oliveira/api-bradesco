@@ -4,7 +4,6 @@
 namespace Bradesco\Services;
 
 
-use Carbon\Carbon;
 use Firebase\JWT\JWT;
 
 class JWTService
@@ -47,9 +46,11 @@ class JWTService
         $this->payload = array_merge($this->payload,$payload);
     }
 
-    public function createJWTToken(string $private_key='path/private_key',string $password = null): string
+    public function createJWTToken(string $private_key='path/private_key',string $password = null, array $payload = []): string
     {
         $private_key = openssl_get_privatekey(file_get_contents($private_key), $password);
+        $this->setPayload($payload);
+        var_dump($this->getPayload());
         return JWT::encode($this->getPayload(),$private_key, 'RS256');
     }
 }

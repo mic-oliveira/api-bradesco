@@ -1,10 +1,13 @@
 version: '3.1'
 
 services:
-  php:
-    image: mileschou/xdebug:7.4
+  web:
+    image: aronpc/php:8.0
     volumes:
       - ./:/app
-    ports:
-    - 80:80
     working_dir: "/app"
+
+networks:
+  default:
+    external:
+      name: web

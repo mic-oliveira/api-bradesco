@@ -9,31 +9,36 @@ use Bradesco\Models\Signature;
 class SignatureService
 {
 
-    static public function createRequestString($signature): array
+    static public function createRequestArray(Signature $signature): array
     {
-        if ($signature instanceof Signature) {
-            $signature = $signature->toArray();
-        }
         return [
-            $signature['verb'],
-            $signature['uri'],
-            $signature['agency'],
-            $signature['account'],
-            $signature['body'],
-            $signature['access_token'],
-            $signature['nonce'],
-            $signature['timestamp'],
-            $signature['algorithm']
+            $signature->getVerb(),
+            $signature->getUri(),
+            $signature->getAgency(),
+            $signature->getAccount(),
+            json_encode($signature->getBody()),
+            $signature->getAccessToken(),
+            $signature->getNonce(),
+            $signature->getTimestamp(),
+            $signature->getAlgorithm()
         ];
     }
 
-    static public function requestString($signature)
+    static public function requestString($signature): string
     {
-        return $request = vprintf("%s\n%s\nagencia=%d&conta=%d\n%s\n%s\n%d\n%s\n%s", self::createRequestString($signature));
+        return vsprintf("%s\n%s\nagencia=%d&conta=%d\n%s\n%s\n%d\n%s\n%s", self::createRequestArray($signature));
     }
 
-    static public function bradRequestSignature($signature, $private_key, $password = null)
+    static public function bradRequestSignature(Signature $signature, $private_key, $password = null)
     {
-        return CertService::sign(self::requestString($signature),$private_key,$password);
+        return CertService::sign(self::requestString($signature), $private_key, $password);
+    }
+
+    static public function returnAsStream(Signature $signature)
+    {
+        $file = fopen('php://memory','w+');
+        fwrite($file, self::requestString($signature));
+        rewind($file);
+        return stream_get_contents($file);
     }
 }

@@ -10,11 +10,12 @@ class Signature extends Model
     private string $uri;
     private int $account;
     private int $agency;
-    private string $body;
+    private array $body;
     private string $access_token;
     private int $nonce;
     private string $timestamp;
     private string $algorithm;
+    private ?string $bradSignature = null;
 
     protected array $mandatory = [
         'verb',
@@ -93,17 +94,17 @@ class Signature extends Model
     }
 
     /**
-     * @return string
+     * @return array
      */
-    public function getBody(): string
+    public function getBody(): array
     {
         return $this->body;
     }
 
     /**
-     * @param string $body
+     * @param array $body
      */
-    public function setBody(string $body): void
+    public function setBody(array $body): void
     {
         $this->body = $body;
     }
@@ -172,7 +173,20 @@ class Signature extends Model
         $this->algorithm = $algorithm;
     }
 
-    public function getParams(){
-
+    /**
+     * @return string
+     */
+    public function getBradSignature(): string
+    {
+        return $this->bradSignature;
     }
+
+    /**
+     * @param string $bradSignature
+     */
+    public function setBradSignature(string $bradSignature): void
+    {
+        $this->bradSignature = $bradSignature;
+    }
+
 }
