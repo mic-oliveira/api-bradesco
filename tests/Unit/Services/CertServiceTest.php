@@ -24,26 +24,23 @@ class CertServiceTest extends TestCase
         $this->service = new CertService();
     }
 
-    public function testSetKeyParams()
+    public function testKeyParams()
     {
-        $key = $this->service->getKeyParams();
-        $this->assertIsArray($key);
-        $this->assertArrayHasKey('digest_alg',$key);
-        $this->assertArrayHasKey('private_key_bits',$key);
-        $this->assertArrayHasKey('private_key_type',$key);
+        $this->service->setKeyParams(['test' => 'test']);
+        $this->assertIsArray($this->service->getKeyParams());
+        $this->assertArrayHasKey('test',$this->service->getKeyParams());
+        $this->assertEquals('test', $this->service->getKeyParams()['test']);
     }
 
-    public function testSetDistinguishedNames()
+    public function testDistinguishedNames()
     {
-        $distinguished_names = $this->service->getDistinguishedNames();
-        $this->assertIsArray($distinguished_names);
-        $this->assertArrayHasKey('countryName',$distinguished_names);
-        $this->assertArrayHasKey('stateOrProvinceName',$distinguished_names);
-        $this->assertArrayHasKey('localityName',$distinguished_names);
-        $this->assertArrayHasKey('organizationName',$distinguished_names);
-        $this->assertArrayHasKey('organizationalUnitName',$distinguished_names);
-        $this->assertArrayHasKey('commonName',$distinguished_names);
-        $this->assertArrayHasKey('emailAddress',$distinguished_names);
+        $distinguished_names = [
+            'test' => 'test'
+        ];
+        $this->service->setDistinguishedNames($distinguished_names);
+        $this->assertIsArray($this->service->getDistinguishedNames());
+        $this->assertArrayHasKey('test',$this->service->getDistinguishedNames());
+        $this->assertEquals('test',$this->service->getDistinguishedNames()['test']);
     }
 
     public function testValidateprivateKeY()
@@ -81,4 +78,5 @@ class CertServiceTest extends TestCase
     {
         $this->assertEquals(1,$this->service->verifyX509($this->certificate_path,$this->public_key_path));
     }
+
 }

@@ -2,7 +2,7 @@ version: '3.1'
 
 services:
   web:
-    image: aronpc/php:8.0
+    image: aronpc/php-alpine:latest-nginx
     volumes:
       - ./:/app
     working_dir: "/app"

@@ -42,7 +42,7 @@ class AuthServiceTest extends TestCase
         $this->signature->setNonce(Carbon::now()->timestamp);
     }
 
-    public function getClient()
+    public function testGetClient()
     {
         $this->assertInstanceOf(Client::class, $this->service->getClient());
     }

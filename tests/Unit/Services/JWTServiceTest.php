@@ -18,10 +18,24 @@ class JWTServiceTest extends TestCase
         $this->service->setPayload([]);
     }
 
+    public function testGetSetHeader()
+    {
+        $this->service->setHeader(['teste'=>'teste']);
+        $this->assertArrayHasKey('teste',$this->service->getHeader());
+        $this->assertEquals('teste',$this->service->getHeader()['teste']);
+    }
+
+    public function testGetSetPayload()
+    {
+        $this->service->setPayload(['teste'=>'teste']);
+        $this->assertArrayHasKey('teste',$this->service->getPayload());
+        $this->assertEquals('teste',$this->service->getPayload()['teste']);
+    }
+
     public function testCreateJWT()
     {
         $this->service->setPayload([
-            'sub' => 'id de aplicação fornecido pelo bradesco',
+            'sub' => 'application_id',
             'iat' => (string)strtotime(Carbon::now()->toDateTimeString()),
             'exp' => (string)strtotime(Carbon::now()->addDay()->toDateTimeString()),
             'jti' => (string)Carbon::now()->unix(),

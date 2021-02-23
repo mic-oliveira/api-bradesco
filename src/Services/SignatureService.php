@@ -33,12 +33,4 @@ class SignatureService
     {
         return CertService::sign(self::requestString($signature), $private_key, $password);
     }
-
-    static public function returnAsStream(Signature $signature)
-    {
-        $file = fopen('php://memory','w+');
-        fwrite($file, self::requestString($signature));
-        rewind($file);
-        return stream_get_contents($file);
-    }
 }

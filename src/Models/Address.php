@@ -12,113 +12,71 @@ class Address extends Model
     private string $city;
     private string $fu;
 
-    /**
-     * @return mixed
-     */
-    public function getPublicPlace()
+    public function getPublicPlace(): string
     {
         return $this->public_place;
     }
 
-    /**
-     * @param mixed $public_place
-     */
     public function setPublicPlace($public_place): void
     {
         $this->public_place = $public_place;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getNumber()
+    public function getNumber(): string
     {
         return $this->number;
     }
 
-    /**
-     * @param mixed $number
-     */
     public function setNumber($number): void
     {
         $this->number = $number;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getComplement()
+    public function getComplement(): string
     {
         return $this->complement;
     }
 
-    /**
-     * @param mixed $complement
-     */
     public function setComplement($complement): void
     {
         $this->complement = $complement;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getCep()
+    public function getCep(): int
     {
         return $this->cep;
     }
 
-    /**
-     * @param mixed $cep
-     */
     public function setCep($cep): void
     {
         $this->cep = $cep;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getNeighborhood()
+    public function getNeighborhood(): string
     {
         return $this->neighborhood;
     }
 
-    /**
-     * @param mixed $neighborhood
-     */
     public function setNeighborhood($neighborhood): void
     {
         $this->neighborhood = $neighborhood;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getCity()
+    public function getCity(): string
     {
         return $this->city;
     }
 
-    /**
-     * @param mixed $city
-     */
     public function setCity($city): void
     {
         $this->city = $city;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getFu()
+    public function getFu(): string
     {
         return $this->fu;
     }
 
-    /**
-     * @param mixed $fu
-     */
     public function setFu($fu): void
     {
         $this->fu = $fu;

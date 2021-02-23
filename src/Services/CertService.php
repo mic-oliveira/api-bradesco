@@ -7,13 +7,13 @@ use Exception;
 class CertService
 {
     private array $distinguished_names = [
-        "countryName" => "GB",
-        "stateOrProvinceName" => "Somerset",
-        "localityName" => "Glastonbury",
-        "organizationName" => "The Brain Room Limited",
+        "countryName" => "BR",
+        "stateOrProvinceName" => "RIO DE JANEIRO",
+        "localityName" => "ARARUAMA",
+        "organizationName" => "Dominus",
         "organizationalUnitName" => "Teste",
-        "commonName" => "Wez Furlong",
-        "emailAddress" => "wez@example.com"
+        "commonName" => "marmotamota",
+        "emailAddress" => "marmotamota@dominus.com.br"
     ];
 
     private array $key_params = ['digest_alg' => null,
@@ -21,28 +21,20 @@ class CertService
 
     public function createPrivateKey(string $key_path,string $passphrase = null, array $options = null): bool
     {
-        try {
-            $private_key = openssl_pkey_new($this->key_params);
-            openssl_pkey_export($private_key,$key,$passphrase,$options);
-            $key_created = file_exists($key_path) || file_put_contents($key_path,$key);
-            chmod($key_path, 0766);
-            return $key_created;
-        } catch (Exception $exception) {
-            throw $exception;
-        }
+        $private_key = openssl_pkey_new($this->key_params);
+        openssl_pkey_export($private_key,$key,$passphrase,$options);
+        $key_created = file_exists($key_path) || file_put_contents($key_path,$key);
+        chmod($key_path, 0766);
+        return $key_created;
     }
 
     public function createPublicKey(string $private_key_path,string $public_key_path,string $passphrase = null): bool
     {
-        try{
-            $key = $key = $this->getPrivateKey($private_key_path, $passphrase);
-            $public_key = openssl_pkey_get_details($key)['key'];
-            $cert_created = file_exists($public_key_path) || file_put_contents($public_key_path, $public_key);
-            chmod($public_key_path, 0766);
-            return $cert_created;
-        } catch (Exception $exception) {
-            throw $exception;
-        }
+        $key = $key = $this->getPrivateKey($private_key_path, $passphrase);
+        $public_key = openssl_pkey_get_details($key)['key'];
+        $cert_created = file_exists($public_key_path) || file_put_contents($public_key_path, $public_key);
+        chmod($public_key_path, 0766);
+        return $cert_created;
     }
 
     public function createCertificate(string $private_key_path, string $cert_path,
@@ -93,12 +85,12 @@ class CertService
         }
     }
 
-    public function setKeyParams(array $key_params=[]): array
+    public function setKeyParams(array $key_params=[])
     {
         $this->key_params = $key_params;
     }
 
-    public function setDistinguishedNames(array $distinguished_names = []): array
+    public function setDistinguishedNames(array $distinguished_names = [])
     {
         $this->distinguished_names = $distinguished_names;
     }
@@ -115,12 +107,8 @@ class CertService
 
     static function sign(string $data, string $private_key='path', string $passphrase=null, string $alg='sha256')
     {
-        try {
-            $key = (new CertService)->getPrivateKey($private_key, $passphrase);
-            openssl_sign($data,$signed_data, $key, $alg);
-            return $signed_data;
-        } catch (Exception $e) {
-            throw $e;
-        }
+        $key = (new CertService)->getPrivateKey($private_key, $passphrase);
+        openssl_sign($data,$signed_data, $key, $alg);
+        return $signed_data;
     }
 }
