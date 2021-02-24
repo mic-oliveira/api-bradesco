@@ -10,7 +10,28 @@ class Address extends Model
     private int $cep;
     private string $neighborhood;
     private string $city;
-    private string $fu;
+    private string $fu; // União federativa.: RJ
+
+    // SET MANDATORY ATTRIBUTES
+    protected array $mandatory = [
+        'public_place',
+        'number',
+        'cep',
+        'neighborhood',
+        'city',
+        'fu',
+    ];
+
+    // SET ATTRIBUTE MAX LENGTH
+    protected array $attribute_scalable = [
+        'public_place' => 40,
+        'number' => 10,
+        'complement' => 15,
+        'cep' => 8,
+        'neighborhood' => 40,
+        'city' => 30,
+        'fu' => 2
+    ];
 
     public function getPublicPlace(): string
     {

@@ -10,49 +10,43 @@ class Discount extends Model
     private string $limit_date;
     private int $percentage;
 
-    /**
-     * @return mixed
-     */
+    protected array $mandatory = [
+        'amount',
+        'limit_date',
+        'percentage'
+    ];
+
+    protected array $attribute_scalable = [
+        'amount' => 17,
+        'limit_date' => 10,
+        'percentage' => 8
+    ];
+
     public function getAmount(): float
     {
         return $this->amount;
     }
 
-    /**
-     * @param mixed $amount
-     */
     public function setAmount($amount): void
     {
         $this->amount = $amount;
     }
 
-    /**
-     * @return mixed
-     */
     public function getLimitDate(): string
     {
         return $this->limit_date;
     }
 
-    /**
-     * @param mixed $limit_date
-     */
     public function setLimitDate($limit_date): void
     {
         $this->limit_date = $limit_date;
     }
 
-    /**
-     * @return mixed
-     */
     public function getPercentage(): int
     {
         return $this->percentage;
     }
 
-    /**
-     * @param mixed $percentage
-     */
     public function setPercentage($percentage): void
     {
         $this->percentage = $percentage;

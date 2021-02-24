@@ -65,7 +65,7 @@ class AuthService
         $request = $this->client->post($signature->getUri(), [
             'headers' => $headers,
             'query' => ['agencia' => $signature->getAgency(), 'conta' => $signature->getAccount()],
-            'form_params' => $signature->getBody()
+            'json' => $signature->getBody()
         ]);
         return $request->getBody()->getContents();
     }

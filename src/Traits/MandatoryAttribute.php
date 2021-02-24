@@ -28,8 +28,8 @@ trait MandatoryAttribute
 
     public function validateAttributes(): bool
     {
-        if(array_diff_key($this->mandatory, array_merge($this->toArray(), ['mandatory'=> $this->mandatory]))) {
-            throw new ValidationException('Mandatory attribute invalid');
+        if($diff=array_diff_key($this->mandatory, array_merge($this->toArray(), ['mandatory'=> $this->mandatory]))) {
+            throw new ValidationException($diff[0]);
         }
         return true;
     }

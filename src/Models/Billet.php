@@ -6,6 +6,8 @@ namespace Bradesco\Models;
 
 class Billet extends Model
 {
+    private int $nu_cpf;
+    private int $filial;
     private string $emission;
     private string $date_issue;
     private string $negotiation;
