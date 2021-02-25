@@ -8,7 +8,7 @@ use Bradesco\Exceptions\ValidationException;
 
 trait MandatoryAttribute
 {
-    protected array $mandatory=[];
+    protected array $mandatory = [];
 
     /**
      * @return array

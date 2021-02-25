@@ -5,10 +5,10 @@ namespace Bradesco\Models;
 class Person extends Model
 {
     private $name;
-    private $cpfCnpj;
     private $email;
     private Address $address;
     private Document $document;
+    private Phone $phone;
 
     public function getName()
     {
@@ -18,16 +18,6 @@ class Person extends Model
     public function setName($name): void
     {
         $this->name = $name;
-    }
-
-    public function getCpfCnpj()
-    {
-        return $this->cpfCnpj;
-    }
-
-    public function setCpfCnpj($cpfCnpj): void
-    {
-        $this->cpfCnpj = $cpfCnpj;
     }
 
     public function getEmail()

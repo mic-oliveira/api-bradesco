@@ -19,12 +19,10 @@ class MandatoryAttributeTest extends TestCase
 
     public function testGetMandatory()
     {
+        $this->trait->setMandatory(['id']);
+        var_dump(array_flip($this->trait->getMandatory()));
         $this->assertIsArray($this->trait->getMandatory());
-    }
-
-    public function testSetMandatory()
-    {
-        $this->assertNull($this->trait->setMandatory(['id']));
+        $this->assertArrayHasKey('id',array_flip($this->trait->getMandatory()));
     }
 
     public function testValidatedAttribute()
