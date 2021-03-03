@@ -17,7 +17,7 @@ try {
     // SET PAYLOAD
     print "Set payload...";
     $jwt->setPayload([
-        'sub' => '251469d6-0f7f-4e5c-ace0-cdafd255be4f',
+        'sub' => 'id_application',
         'iat' => Carbon::now()->getPreciseTimestamp(0),
         'exp' => Carbon::now()->addMonth()->getPreciseTimestamp(0),
         'jti' => Carbon::now()->getPreciseTimestamp(3)
