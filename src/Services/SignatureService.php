@@ -24,9 +24,12 @@ class SignatureService
         ];
     }
 
-    static public function requestString($signature): string
+    static public function requestString(Signature $signature): string
     {
-        return vsprintf("%s\n%s\nagencia=%d&conta=%d\n%s\n%s\n%d\n%s\n%s", self::createRequestArray($signature));
+        $array = array_diff(self::createRequestArray($signature),['',null]);
+        return empty($signature->getAgency()) || empty($signature->getAccount()) ?
+            vsprintf("%s\n%s\n\n%s\n%s\n%d\n%s\n%s", $array) :
+            vsprintf("%s\n%s\nagencia=%d&conta=%d\n%s\n%s\n%d\n%s\n%s", $array);
     }
 
     static public function bradRequestSignature(Signature $signature, $private_key, $password = null)

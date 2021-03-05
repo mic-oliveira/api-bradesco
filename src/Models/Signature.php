@@ -29,6 +29,16 @@ class Signature extends Model
         'algorithm'
     ];
 
+    /**
+     * Signature constructor.
+     * @param array $body
+     */
+    public function __construct(array $body = [])
+    {
+        $this->body = $body;
+    }
+
+
     public function getVerb(): string
     {
         return $this->verb;
@@ -49,9 +59,9 @@ class Signature extends Model
         $this->uri = $uri;
     }
 
-    public function getAccount(): int
+    public function getAccount(): ?int
     {
-        return $this->account;
+        return $this->account ?? null;
     }
 
     public function setAccount(int $account): void
@@ -59,9 +69,9 @@ class Signature extends Model
         $this->account = $account;
     }
 
-    public function getAgency(): int
+    public function getAgency(): ?int
     {
-        return $this->agency;
+        return $this->agency ?? null;
     }
 
     public function setAgency(int $agency): void

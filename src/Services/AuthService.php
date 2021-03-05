@@ -70,7 +70,7 @@ class AuthService
         return $request->getBody()->getContents();
     }
 
-    public function makeHeaders(Signature $signature): array
+    static public function makeHeaders(Signature $signature): array
     {
         return [
             'Authorization' => sprintf('Bearer %s', $signature->getAccessToken()),

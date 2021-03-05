@@ -43,7 +43,6 @@ class SignatureServiceTest extends TestCase
     public function testRequestString()
     {
         $this->signature->setAccessToken($this->cache->getItem('token.access_token')->get());
-        var_dump($this->cache->getItem('token.access_token')->get());
         $this->assertIsString(SignatureService::requestString($this->signature));
     }
 

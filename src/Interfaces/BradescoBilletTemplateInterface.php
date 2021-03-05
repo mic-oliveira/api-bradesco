@@ -8,7 +8,7 @@ interface BradescoBilletTemplateInterface
 {
     public function getAgenciaDestino();
     public function getBairroPagador();
-    public function getBairroPagadorAvalista();
+    public function getBairroSacadorAvalista();
     public function getCdEspecieTitulo();
     public function getCdIndCpfcnpjPagador();
     public function getCdIndCpfcnpjSacadorAvalista();
@@ -79,4 +79,5 @@ interface BradescoBilletTemplateInterface
     public function getVlJuros();
     public function getVlMulta();
     public function getVlNominalTitulo();
+    public function parse();
 }

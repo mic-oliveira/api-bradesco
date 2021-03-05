@@ -50,7 +50,6 @@ class JWTService
     {
         $private_key = openssl_get_privatekey(file_get_contents($private_key), $password);
         $this->setPayload($payload);
-        var_dump($this->getPayload());
         return JWT::encode($this->getPayload(),$private_key, 'RS256');
     }
 }
