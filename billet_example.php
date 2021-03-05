@@ -129,7 +129,7 @@ print "OK!\n";
 
 // CREATE X-BRAD-SIGNATURE
 print "Create X-Brad-Signature...";
-$bradSignature = SignatureService::bradRequestSignature($signature, __DIR__ . '/certificate_path', 'nettel@telecom2021');
+$bradSignature = SignatureService::bradRequestSignature($signature, __DIR__ . '/certificate_path', 'password');
 $signature->setBradSignature(base64_encode($bradSignature));
 file_put_contents('signature.txt', $signature->getBradSignature());
 print "OK!\n";
