@@ -6,15 +6,16 @@ namespace Bradesco\Services;
 use Bradesco\Interfaces\BradescoBilletTemplateInterface;
 use Bradesco\Models\Signature;
 use GuzzleHttp\Client;
+use Symfony\Component\Cache\Adapter\AbstractAdapter;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 
 class BilletEmissionService
 {
     private Client $client;
     private Signature $signature;
-    private $cache;
+    private ?AbstractAdapter $cache;
 
-    public function __construct(FilesystemAdapter $cache)
+    public function __construct(AbstractAdapter $cache = null)
     {
         $this->client = new Client([
             'verify' => false,
@@ -43,12 +44,12 @@ class BilletEmissionService
         $this->signature = $signature;
     }
 
-    public function getCache(): FilesystemAdapter
+    public function getCache()
     {
         return $this->cache;
     }
 
-    public function setCache(FilesystemAdapter $cache): void
+    public function setCache(AbstractAdapter $cache): void
     {
         $this->cache = $cache;
     }
@@ -57,7 +58,6 @@ class BilletEmissionService
     {
         $this->getSignature()->setBody($billet->parse());
         $headers = AuthService::makeHeaders($this->signature);
-        file_put_contents('request_log.txt',str_replace('array','headers',var_export($headers, true))."\n".json_encode($billet->parse()));
         return $this->client->request('POST',$this->signature->getUri(), [
             'headers' => $headers,
             'json' => $billet->parse(),

@@ -6,14 +6,15 @@ namespace Bradesco\Services;
 
 use Bradesco\Models\Signature;
 use GuzzleHttp\Client;
+use Symfony\Component\Cache\Adapter\AbstractAdapter;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 
 class AuthService
 {
     private Client $client;
-    private FilesystemAdapter $cache;
+    private ?AbstractAdapter $cache;
 
-    public function __construct(FilesystemAdapter $cache)
+    public function __construct(FilesystemAdapter $cache = null)
     {
         $this->client = new Client([
             'verify' => false,
@@ -32,6 +33,7 @@ class AuthService
         $this->client = $client;
     }
 
+
     public function accessToken(string $assertion)
     {
         $request = $this->client->request('POST','/auth/server/v1.1/token',
@@ -46,7 +48,7 @@ class AuthService
             ]
         );
         $token = json_decode($request->getBody()->getContents());
-        $this->setCache($token->access_token,$token->expires_in);
+        $this->cache ? $this->setCache($token->access_token,$token->expires_in) : null;
         return $token->access_token;
     }
 
