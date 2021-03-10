@@ -4,9 +4,9 @@
 namespace Bradesco\Templates;
 
 
-use Bradesco\Interfaces\BradescoBilletTemplateInterface;
+use Bradesco\Interfaces\BilletTemplateInterface;
 
-abstract class BilletParser implements BradescoBilletTemplateInterface
+abstract class BilletParser implements BilletTemplateInterface
 {
     protected int $agenciaDestino;
     protected string $bairroPagador;

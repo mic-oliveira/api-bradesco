@@ -4,7 +4,7 @@
 namespace Bradesco\Interfaces;
 
 
-interface BradescoBilletTemplateInterface
+interface BilletTemplateInterface
 {
     public function getAgenciaDestino();
     public function getBairroPagador();

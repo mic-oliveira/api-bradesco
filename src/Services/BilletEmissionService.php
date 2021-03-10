@@ -3,7 +3,7 @@
 
 namespace Bradesco\Services;
 
-use Bradesco\Interfaces\BradescoBilletTemplateInterface;
+use Bradesco\Interfaces\BilletTemplateInterface;
 use Bradesco\Models\Signature;
 use GuzzleHttp\Client;
 use Symfony\Component\Cache\Adapter\AbstractAdapter;
@@ -54,7 +54,7 @@ class BilletEmissionService
         $this->cache = $cache;
     }
 
-    public function emit(BradescoBilletTemplateInterface $billet)
+    public function emit(BilletTemplateInterface $billet)
     {
         $this->getSignature()->setBody($billet->parse());
         $headers = AuthService::makeHeaders($this->signature);
